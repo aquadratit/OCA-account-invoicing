@@ -1,8 +1,0 @@
-<odoo>
-
-    <record id="account.portal_my_home_invoice" model="ir.ui.view">
-        <field name="customize_show" eval="True" />
-        <field name="active" eval="False" />
-    </record>
-
-</odoo>
