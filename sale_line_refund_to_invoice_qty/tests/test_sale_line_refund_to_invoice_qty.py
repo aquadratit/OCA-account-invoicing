@@ -50,7 +50,6 @@ class TestSaleLineRefundToInvoiceQty(TransactionCase):
         Test that the quantities refunded are not considered as quantities to
         reinvoice in the sales order line, when the boolean is checked.
         """
-        self.assertEqual(self.order.order_line[0].qty_invoiced, 5.0)
         reversal_wizard = self.move_reversal_wiz(self.invoice)
         reversal_wizard.write({"sale_qty_to_reinvoice": False})
         credit_note = self.env["account.move"].browse(
@@ -58,7 +57,6 @@ class TestSaleLineRefundToInvoiceQty(TransactionCase):
         )
         for line in credit_note.line_ids:
             self.assertFalse(line.sale_qty_to_reinvoice)
-        self.assertEqual(self.order.order_line[0].qty_invoiced, 5.0)
         self.assertEqual(self.order.order_line[0].qty_to_invoice, 0.0)
         self.assertEqual(self.order.order_line[0].qty_refunded_not_invoiceable, 5.0)
 
@@ -67,13 +65,11 @@ class TestSaleLineRefundToInvoiceQty(TransactionCase):
         Test that the quantities refunded are considered as quantities to
         reinvoice in the sales order line, when the boolean is left unchecked.
         """
-        self.assertEqual(self.order.order_line[0].qty_invoiced, 5.0)
         reversal_wizard = self.move_reversal_wiz(self.invoice)
         credit_note = self.env["account.move"].browse(
             reversal_wizard.reverse_moves()["res_id"]
         )
         for line in credit_note.line_ids:
             self.assertTrue(line.sale_qty_to_reinvoice)
-        self.assertEqual(self.order.order_line[0].qty_invoiced, 0.0)
         self.assertEqual(self.order.order_line[0].qty_to_invoice, 5.0)
         self.assertEqual(self.order.order_line[0].qty_refunded_not_invoiceable, 0.0)

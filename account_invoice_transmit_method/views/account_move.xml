@@ -35,10 +35,7 @@
             <field name="invoice_filter_type_domain" position="after">
                 <field name="transmit_method_code" invisible="1" />
             </field>
-            <xpath
-                expr="//button[@name='action_invoice_sent'][1]"
-                position="attributes"
-            >
+            <button name="action_invoice_sent" position="attributes">
                 <attribute name="attrs" operation="update">
                     {
                         'invisible': [
@@ -50,23 +47,7 @@
                         ],
                     }
                 </attribute>
-            </xpath>
-            <xpath
-                expr="//button[@name='action_invoice_sent'][2]"
-                position="attributes"
-            >
-                <attribute name="attrs" operation="update">
-                    {
-                        'invisible': [
-                            '|', '|', '|',
-                            ('state', '!=', 'posted'),
-                            ('is_move_sent', '=', False),
-                            ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')),
-                            ('transmit_method_code', 'not in', ('mail', False)),
-                        ],
-                    }
-                </attribute>
-            </xpath>
+            </button>
         </field>
     </record>
 </odoo>
